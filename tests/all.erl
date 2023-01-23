@@ -1,0 +1,81 @@
+%%% -------------------------------------------------------------------
+%%% @author  : Joq Erlang
+%%% @doc: : 
+%%% Created :
+%%% Node end point  
+%%% Creates and deletes Pods
+%%% 
+%%% API-kube: Interface 
+%%% Pod consits beams from all services, app and app and sup erl.
+%%% The setup of envs is
+%%% -------------------------------------------------------------------
+-module(all).      
+  
+-export([start/1]).
+%% --------------------------------------------------------------------
+%% Include files
+%% --------------------------------------------------------------------
+
+
+%% --------------------------------------------------------------------
+%% Function: available_hosts()
+%% Description: Based on hosts.config file checks which hosts are avaible
+%% Returns: List({HostId,Ip,SshPort,Uid,Pwd}
+%% --------------------------------------------------------------------
+start(_Args)->
+    io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME}]),
+
+    ok=setup(),
+
+    ok=config_tests:start(),
+    ok=cluster_spec_tests:start(),
+    ok=cluster_instance_tests:start(),
+    ok=appl_deployment_tests:start(),
+    ok=appl_instance_tests:start(),    
+    ok=host_spec_tests:start(),
+    ok=parents_tests:start(),
+    ok=pod_tests:start(),
+    ok=appl_tests:start(),
+    
+
+ 
+   
+   
+    io:format("Stop OK !!! ~p~n",[{?MODULE,?FUNCTION_NAME}]),
+    timer:sleep(2000),
+   init:stop(),
+    ok.
+
+
+%% --------------------------------------------------------------------
+%% Function: available_hosts()
+%% Description: Based on hosts.config file checks which hosts are avaible
+%% Returns: List({HostId,Ip,SshPort,Uid,Pwd}
+%% --------------------------------------------------------------------
+
+
+
+%% --------------------------------------------------------------------
+%% Function: available_hosts()
+%% Description: Based on hosts.config file checks which hosts are avaible
+%% Returns: List({HostId,Ip,SshPort,Uid,Pwd}
+%% --------------------------------------------------------------------
+
+%% --------------------------------------------------------------------
+%% Function: available_hosts()
+%% Description: Based on hosts.config file checks which hosts are avaible
+%% Returns: List({HostId,Ip,SshPort,Uid,Pwd}
+%% --------------------------------------------------------------------
+
+
+setup()->
+    io:format("Start ~p~n",[{?MODULE,?FUNCTION_NAME}]),
+    ok=application:start(common),
+    pong=common:ping(),
+    ok=application:start(sd),
+    pong=sd:ping(),
+    ok=application:start(db_console),
+    pong=db_etcd:ping(),
+    ok=db_etcd:config(),
+    
+    ok.
